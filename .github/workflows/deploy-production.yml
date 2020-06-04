@@ -6,7 +6,8 @@ on:
       - master
 
 jobs:
-  vapor:
+  deploy:
+    needs: [php-cs-fixer, prettier]
     name: Deploy to production
     runs-on: ubuntu-latest
     steps:
@@ -21,7 +22,6 @@ jobs:
         NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
 
     - uses: ubient/laravel-vapor-action@master
-      needs: [php-cs-fixer, prettier]
       env:
         VAPOR_API_TOKEN: ${{ secrets.VAPOR_API_TOKEN }}
       with:
