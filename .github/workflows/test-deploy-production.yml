@@ -128,6 +128,7 @@ jobs:
         ref: ${{ github.head_ref }}
 
     - name: Check for vapor.yml
+      id: check_files
       uses: andstor/file-existence-action@v1
       with:
         files: "vapor.yml"
