@@ -16,6 +16,8 @@ on:
 jobs:
   prettier:
     runs-on: ubuntu-latest
+    name: Prettify assets
+
     steps:
       - uses: actions/checkout@v2
         with:
@@ -36,6 +38,7 @@ jobs:
 
   php-cs-fixer:
     runs-on: ubuntu-latest
+    name: Fix PHP-CS
 
     steps:
       - uses: actions/checkout@v2
@@ -78,6 +81,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    name: Test
 
     steps:
       - uses: actions/checkout@v2
