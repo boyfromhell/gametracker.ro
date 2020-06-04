@@ -24,7 +24,8 @@
         "livewire/livewire": "^1.1",
         "mdixon18/fontawesome": "^0.1.1",
         "rmsj/nova-hero-icon": "^1.0",
-        "spatie/laravel-cookie-consent": "^2.12"
+        "spatie/laravel-cookie-consent": "^2.12",
+        "spatie/sheets": "^1.5"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.7",
