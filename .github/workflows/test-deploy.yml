@@ -115,7 +115,7 @@ jobs:
         run: vendor/bin/phpunit
 
   deploy:
-    needs: [php-cs-fixer, prettier]
+    needs: [php-cs-fixer, prettier, test]
     name: Deploy to production
     runs-on: ubuntu-latest
     steps:
