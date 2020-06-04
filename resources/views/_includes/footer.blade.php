@@ -13,7 +13,7 @@
                     </li>
 
                     <li>
-                        <a href="/privacy" class="text-gray-600 hover:text-gray-800">Privacy</a>
+                        <a href="/imprint#privacy" class="text-gray-600 hover:text-gray-800">Privacy</a>
                     </li>
 
                     <li>

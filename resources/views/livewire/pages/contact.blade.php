@@ -6,10 +6,6 @@
                 <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Have something to share with us? Hit us a message!</p>
             </div>
             <div class="lg:w-1/2 md:w-2/3 mx-auto">
-                <div wire:loading class="pb-5">
-                    Processing Form...
-                </div>
-
                 @error('name')
                     <div role="alert" class="pb-5">
                         <div class="border border-t-1 border-red-400 rounded-b rounded-t bg-red-100 px-4 py-3 text-red-700">

@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'welcome')->name('home');
+Route::view('/imprint', 'pages.imprint')->name('imprint');
+Route::view('/about', 'pages.about')->name('about');
 
 Route::middleware('guest')->group(function () {
     Route::view('login', 'auth.login')->name('login');
