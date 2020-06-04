@@ -1,0 +1,138 @@
+name: Test and deploy (Staging)
+
+on:
+  push:
+    branches:
+      - '*'
+      - '*/*'
+      - '!master'
+    pull_request:
+      paths:
+        - '**.php'
+        - '**.css'
+        - '**.js'
+        - '**.vue'
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Install
+        run: yarn install
+        env:
+          CI: true
+
+      - name: Run prettier
+        run: yarn run prettier --write 'resources/**/*.{css,js,vue}'
+
+      - uses: stefanzweifel/git-auto-commit-action@v4.1.0
+        with:
+          commit_message: Apply php-cs-fixer changes
+          branch: ${{ github.head_ref }}
+
+  php-cs-fixer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Composer
+        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+        env:
+          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Install
+        run: composer install
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Create Database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+
+      - name: Run php-cs-fixer
+        run: composer format
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+
+      - name: Delete Database
+        run: rm database/database.sqlite
+
+      - uses: stefanzweifel/git-auto-commit-action@v4.1.0
+        with:
+          commit_message: Apply php-cs-fixer changes
+          branch: ${{ github.head_ref }}
+
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Composer
+        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+        env:
+          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+          -
+      - name: Install
+        run: composer install
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Create Database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+
+      - name: Run php-cs-fixer
+        run: composer format
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: vendor/bin/phpunit
+
+  deploy:
+    needs: [php-cs-fixer, prettier, test]
+    name: Deploy to staging
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.head_ref }}
+
+    - name: Setup Composer
+      run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+      env:
+        NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+        NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+
+    - uses: ubient/laravel-vapor-action@master
+      env:
+        VAPOR_API_TOKEN: ${{ secrets.VAPOR_API_TOKEN }}
+      with:
+        args: "deploy"
