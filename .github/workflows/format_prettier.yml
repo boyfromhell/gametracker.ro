@@ -27,6 +27,6 @@ jobs:
               run: yarn run prettier --write 'resources/**/*.{css,js,vue}'
 
             - uses: stefanzweifel/git-auto-commit-action@v4.1.0
-                with:
-                  commit_message: Apply php-cs-fixer changes
-                  branch: ${{ github.head_ref }}
+              with:
+                commit_message: Apply php-cs-fixer changes
+                branch: ${{ github.head_ref }}
