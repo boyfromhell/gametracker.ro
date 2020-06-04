@@ -1,0 +1,29 @@
+id: 10581
+name: 4raum-landing
+environments:
+    production:
+        memory: 1024
+        cli-memory: 512
+        runtime: php-7.4
+        balancer: balancer-4r-01
+        domain: 4raum.co
+        database: database-4r-mysql8-micro
+        build:
+            - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
+            - 'php artisan event:cache'
+            - 'npm ci && npm run prod && rm -rf node_modules'
+        deploy:
+          - 'php artisan migrate --force'
+    staging:
+        memory: 512
+        cli-memory: 512
+        runtime: php-7.4
+        balancer: balancer-4r-01
+        domain: staging.4raum.co
+        database: database-4r-mysql8-micro
+        build:
+            - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install'
+            - 'php artisan event:cache'
+            - 'npm ci && npm run dev && rm -rf node_modules'
+        deploy:
+          - 'php artisan migrate:fresh --seed --force'
