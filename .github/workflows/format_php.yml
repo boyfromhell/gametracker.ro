@@ -12,7 +12,9 @@ jobs:
      php-cs-fixer:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v1
+            - uses: actions/checkout@v2
+              with:
+                ref: ${{ github.head_ref }}
 
             - name: Setup Composer
               run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
