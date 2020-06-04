@@ -9,10 +9,17 @@ on:
             - '**.php'
 
 jobs:
-    php-cs-fixer:
+     php-cs-fixer:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
+          
+            - uses: judge2020/actions-laravel-nova-composer-login@master
+            - name: Install
+              run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+              env:
+                NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+                NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
 
             - name: Install
               run: composer install
