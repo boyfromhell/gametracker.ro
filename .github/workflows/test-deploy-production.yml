@@ -127,13 +127,20 @@ jobs:
       with:
         ref: ${{ github.head_ref }}
 
+    - name: Check for vapor.yml
+      uses: andstor/file-existence-action@v1
+      with:
+        files: "vapor.yml"
+
     - name: Setup Composer
+      if: steps.check_files.outputs.files_exists == 'true'
       run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
       env:
         NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
         NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
 
     - uses: ubient/laravel-vapor-action@master
+      if: steps.check_files.outputs.files_exists == 'true'
       env:
         VAPOR_API_TOKEN: ${{ secrets.VAPOR_API_TOKEN }}
       with:
