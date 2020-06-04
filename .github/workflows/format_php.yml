@@ -2,7 +2,7 @@ name: Format (PHP)
 
 on:
     push:
-        branches: 
+        branches:
             - master
     pull_request:
         paths:
@@ -13,7 +13,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v1
-          
+
             - name: Setup Composer
               run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
               env:
@@ -24,7 +24,7 @@ jobs:
               run: composer install
 
             - name: Run php-cs-fixer
-              run: ./vendor/bin/php-cs-fixer fix
+              run: composer format
 
             - uses: stefanzweifel/git-auto-commit-action@v2.1.0
               with:
