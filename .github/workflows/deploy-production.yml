@@ -15,10 +15,10 @@ jobs:
         ref: ${{ github.head_ref }}
 
     - name: Setup Composer
-        run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
-        env:
-          NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
-          NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
+      run: composer config http-basic.nova.laravel.com ${NOVA_USERNAME} ${NOVA_PASSWORD}
+      env:
+        NOVA_PASSWORD: ${{ secrets.NOVA_PASSWORD }}
+        NOVA_USERNAME: ${{ secrets.NOVA_USERNAME }}
 
     - uses: ubient/laravel-vapor-action@master
       env:
