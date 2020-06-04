@@ -35,26 +35,8 @@ jobs:
 
   php-cs-fixer:
     runs-on: ubuntu-latest
-    services:
-      image: mariadb:latest
-        ports:
-          - 3306
-        env:
-          MYSQL_USER: user
-          MYSQL_PASSWORD: password
-          MYSQL_DATABASE: test
-          MYSQL_ROOT_PASSWORD: password
-        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
 
     steps:
-      - name: Verify MariaDB connection
-        env:
-          PORT: ${{ job.services.mariadb.ports[3306] }}
-        run: |
-          while ! mysqladmin ping -h"127.0.0.1" -P"$PORT" --silent; do
-            sleep 1
-          done
-          
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.head_ref }}
@@ -69,7 +51,7 @@ jobs:
         run: composer install
 
       - name: Run php-cs-fixer
-        run: composer format
+        uses: docker://oskarstark/php-cs-fixer-ga
 
       - uses: stefanzweifel/git-auto-commit-action@v4.1.0
         with:
