@@ -1,6 +1,9 @@
 name: Format (PHP)
 
 on:
+    push:
+        branches: 
+            - master
     pull_request:
         paths:
             - '**.php'
