@@ -22,6 +22,9 @@ class CreateUsersTable extends Migration
 
             $table->boolean('is_admin')->default(false);
 
+            $table->string('role')->nullable();
+            $table->string('bio')->nullable();
+
             $table->rememberToken();
             $table->timestamps();
         });

@@ -2,17 +2,15 @@
 
 namespace App\Nova;
 
+use Drobee\NovaSluggable\Slug;
+use Drobee\NovaSluggable\SluggableText;
 use Illuminate\Http\Request;
+use Inspheric\Fields\Url;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\Trix;
-use Drobee\NovaSluggable\SluggableText;
-use Drobee\NovaSluggable\Slug;
-use Inspheric\Fields\Url;
 use Mdixon18\Fontawesome\Fontawesome;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Project extends Resource
 {

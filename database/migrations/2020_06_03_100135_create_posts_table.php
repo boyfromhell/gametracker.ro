@@ -29,10 +29,12 @@ class CreatePostsTable extends Migration
 
             $table->string('external_url')->nullable();
 
-            $table->timestamp('publish_at');
+            $table->timestamp('publish_at')->nullable();
 
             $table->boolean('is_exclusive')->default(true);
             $table->boolean('is_published')->default(false);
+
+            $table->float('view_count')->nullable();
 
             $table->timestamps();
         });

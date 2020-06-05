@@ -12,7 +12,6 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Fields\VaporImage;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Post extends Resource
 {
@@ -51,7 +50,7 @@ class Post extends Resource
             ID::make()->sortable(),
             BelongsTo::make('Author', 'author', 'App\Nova\User'),
             BelongsTo::make('Category'),
-            VaporImage::make('Featured Image'),
+//            VaporImage::make('Featured Image'),
             SluggableText::make('Title'),
             Slug::make('Slug'),
             Textarea::make('Excerpt'),

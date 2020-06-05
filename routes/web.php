@@ -37,3 +37,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('projects', 'Projects\ProjectController');
+Route::resource('posts', 'Blog\PostController');
+Route::resource('categories', 'Blog\PostController');
+
+Route::view('blog', 'blog.index');
